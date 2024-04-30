@@ -54,3 +54,4 @@ for n in range(TIEMPO):
 
 for n in range (TIEMPO):
     norms[n] = np.sum(np.abs(Phi_j[n])**2)
+    
