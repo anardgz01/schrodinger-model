@@ -30,7 +30,7 @@ for j in range(N+1):
         V_j[j] = VAR_LAMBDA * K0**2
 
 for j in range(1, N):
-    Phi_j[0][j] = np.exp(1j*K0*j)*np.exp(-8*(4*j-N)**2/N**2)
+    Phi_j[0,j] = np.exp(1j*K0*j)*np.exp(-8*(4*j-N)**2/N**2)
 
 A_J_0 = -2 + 2j/S - V_j
 for j in range(N-2, -1, -1):
@@ -40,18 +40,18 @@ for j in range(N-2, -1, -1):
 
 for n in range(TIEMPO):
 
-#Calculate beta from 22.
+#Calculate beta from equation 22.
     for j in range(N-2, -1, -1):
-        beta_j[n][j] = gamma_j[j+1]*(4j*Phi_j[n][j+1]/S - A_J_PLUS*beta_j[n][j+1])
+        beta_j[n,j] = gamma_j[j+1]*(4j*Phi_j[n,j+1]/S - A_J_PLUS*beta_j[n,j+1])
 
-#Calulate chi from 20.
+#Calulate chi from equation 20.
     for j in range(1, N):
-        chi_j[n][j] = alpha_j[n][j-1]*chi_j[n][j-1] + beta_j[n][j-1]
+        chi_j[n,j] = alpha_j[n,j-1]*chi_j[n,j-1] + beta_j[n,j-1]
 
-#Calculate Φj,n+1 from 15.
+#Calculate Φj,n+1 from equation 15.
     for j in range (1,N):
-        Phi_j[n+1][j] = chi_j[n][j] - Phi_j[n][j]
+        Phi_j[n+1,j] = chi_j[n,j] - Phi_j[n,j]
 
+#Compute the conservation of the norm.
 for n in range (TIEMPO):
     norms[n] = np.sum(np.abs(Phi_j[n])**2)
-    
