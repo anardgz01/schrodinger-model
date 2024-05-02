@@ -7,7 +7,7 @@ import numpy as np
 N = 1000
 N_CICLOS = 100
 VAR_LAMBDA = 1.0
-TIEMPO = 100000
+TIEMPO = 1000
 
 #Generate s, k0, Vj, Phi_j,0 (phi_0_0=phi_N_0=0) y alpha
 
@@ -30,7 +30,7 @@ for j in range(N+1):
         V_j[j] = VAR_LAMBDA * K0**2
 
 for j in range(1, N):
-    Phi_j[0,j] = np.exp(1j*K0*j)*np.exp(-8*(4*j-N)**2/N**2)
+    Phi_j[0,j] = 1/np.sqrt(np.sqrt(np.pi)*N/16)*np.exp(1j*K0*j)*np.exp(-8*(4*j-N)**2/N**2)
 
 A_J_0 = -2 + 2j/S - V_j
 for j in range(N-3, -1, -1):
