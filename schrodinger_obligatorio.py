@@ -7,18 +7,18 @@ import numpy as np
 N = 1000
 N_CICLOS = 100
 VAR_LAMBDA = 1.0
-TIEMPO = 1000
+TIME = 1000
 
 #Generate s, k0, Vj, Phi_j,0 (phi_0_0=phi_N_0=0) y alpha
 
 K0 = 2*np.pi*N_CICLOS/N
 S = 1 /(4*K0) 
 V_j = np.zeros(N)
-Phi_j = np.zeros((TIEMPO,N), dtype=complex)
-norms = np.zeros(TIEMPO)
+Phi_j = np.zeros((TIME,N), dtype=complex)
+norms = np.zeros(TIME)
 alpha_j = np.zeros(N-1, dtype=complex)
-beta_j = np.zeros((TIEMPO,N-1), dtype=complex)
-chi_j = np.zeros((TIEMPO,N-1), dtype=complex)
+beta_j = np.zeros((TIME,N-1), dtype=complex)
+chi_j = np.zeros((TIME,N-1), dtype=complex)
 gamma_j = np.zeros(N-1, dtype=complex)
 A_J_MINUS = 1 
 A_J_PLUS = 1
@@ -38,7 +38,7 @@ for j in range(N-3, -1, -1):
     gamma_j[j+1] =  1/gamma_inv
     alpha_j[j] = -A_J_MINUS*gamma_j[j+1]
 
-for n in range(TIEMPO-1):
+for n in range(TIME-1):
 
 #Calculate beta from equation 22.
     for j in range(N-3, -1, -1):
@@ -53,7 +53,7 @@ for n in range(TIEMPO-1):
         Phi_j[n+1,j] = chi_j[n,j] - Phi_j[n,j]
 
 #Compute the conservation of the norm.
-for n in range (TIEMPO):
+for n in range (TIME):
     norms[n] = np.sum(np.abs(Phi_j[n])**2)
 
 np.save('resultados/wave_function.npy', Phi_j)
