@@ -6,8 +6,8 @@ import numpy as np
 N = 1000
 N_CICLOS = 100
 VAR_LAMBDA = 0.1
-TIME = 5000
-n_d = 125
+TIME = 2000
+n_d = N//4
 m_t = 0.0
 m_times = 10**3
 
@@ -64,7 +64,7 @@ for i in range(m_times):
         for j in range (1,N-1):
             Phi_j[n+1,j] = chi_j[n,j] - Phi_j[n,j]
 
-        if n % n_d == 0:
+        if n % n_d == 0 and n != 0:
             print(f'Iteración {n} de {TIME}')
 
             # Calculate the probability of being in the right side between j=4*N/5 and j=N
@@ -74,8 +74,8 @@ for i in range(m_times):
             random_number = np.random.rand()
             if random_number < probability_right:
                 m_t += 1
-                generate_initial_wave_function()
-                continue
+                print(f'Hey, I am in the right side at time {n}!')
+                break
 
             Phi_j[n,4*N//5:N] = 0
             k_norm = np.sum(np.abs(Phi_j[n])**2)
@@ -87,8 +87,8 @@ for i in range(m_times):
             #Generate a random number between 0 and 1
             random_number = np.random.rand()
             if random_number < probability_left:
-                generate_initial_wave_function()
-                continue
+                print(f'Hey, I am in the left side at time {n}!')
+                break
 
             Phi_j[n,0:N//5] = 0
             k_norm = np.sum(np.abs(Phi_j[n])**2)
