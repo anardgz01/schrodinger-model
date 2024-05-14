@@ -70,29 +70,36 @@ def simulate(n : int = 1000, lamb : float = 0.3):
 
             # OBLIGATORY MEASUREMENT
             # Calculate the probability of being in the right side between j=4*N/5 and j=N
-            probability_right = np.sum(np.abs(Phi_j[n+1, 4*N//5:N])**2)
+            probabilities = np.abs(Phi_j[n+1])**2
+            cumulative_probabilities = np.cumsum(probabilities)
+            measured_position = np.digitize(np.random.rand(), cumulative_probabilities) # It will never return 0 or N.
+            print(f'Position measured: {measured_position}, Probability: {probabilities[measured_position]}')
 
-            #Generate a random number between 0 and 1
-            random_number = np.random.rand()
-            if random_number < probability_right:
+            # probability_right = np.sum(np.abs(Phi_j[n+1, 4*N//5:N])**2)
+
+            #Check if it was at the right side
+            if measured_position >= 4*N//5:
                 print(f'Hey, I am in the right side at time {n}!')
-                break
-
-            Phi_j[n+1,4*N//5:N] = 0
-            k_norm = np.sum(np.abs(Phi_j[n+1])**2)
-            Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
-
-            #Calculate the probability of being in the left side between j=0 and j=N/5
-            probability_left = np.sum(np.abs(Phi_j[n+1, 0:N//5])**2)
-
-            #Generate a random number between 0 and 1
-            random_number = np.random.rand()
-            if random_number < probability_left:
+            
+            elif measured_position < N//5:
                 print(f'Hey, I am in the left side at time {n}!')
 
-            Phi_j[n+1,0:N//5] = 0
-            k_norm = np.sum(np.abs(Phi_j[n+1])**2)
-            Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
+            # Turn the wave function into a delta function
+            Phi_j[n+1] = 0
+            Phi_j[n+1, measured_position] = 1+0j
+
+            # Phi_j[n+1,4*N//5:N] = 0
+            # k_norm = np.sum(np.abs(Phi_j[n+1])**2)    This is now unnecessary since the delta function is normalized.
+            # Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
+
+            #Calculate the probability of being in the left side between j=0 and j=N/5
+            # probability_left = np.sum(np.abs(Phi_j[n+1, 0:N//5])**2)
+
+            #Generate a random number between 0 and 1
+
+            # Phi_j[n+1,0:N//5] = 0
+            # k_norm = np.sum(np.abs(Phi_j[n+1])**2)
+            # Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
 
     #Compute the conservation of the norm.
     for n in range (TIME):
