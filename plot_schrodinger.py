@@ -30,7 +30,8 @@ def myplot():
     ax2.set_xlabel('Position')
     ax2.set_ylabel('Wave Function')
     ax2.set_xlim(np.min(position), np.max(position)+1)
-    ax2.set_ylim(np.min(wave_function_norm),np.max(wave_function_norm)+0.005)
+    # ax2.set_ylim(np.min(wave_function_norm),np.max(wave_function_norm)+0.005)
+    ax2.set_ylim(np.min(wave_function_norm),0.016)
 
     # Initialize the text annotation for the current time
     time_text = ax2.text(0.02, 0.95, '', transform=ax2.transAxes)
