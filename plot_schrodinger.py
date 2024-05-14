@@ -4,10 +4,10 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.animation import PillowWriter
 
 def myplot():
-    # norms = np.load('resultados/norms.npy')
-    # wave_function = np.load('resultados/wave_function.npy')
-    norms = np.load('resultados/norms_t_100000.npy')
-    wave_function = np.load('resultados/wave_function_t_100000.npy')
+    norms = np.load('resultados/norms.npy')
+    wave_function = np.load('resultados/wave_function.npy')
+    # norms = np.load('resultados/norms_t_100000.npy')
+    # wave_function = np.load('resultados/wave_function_t_100000.npy')
     wave_function_norm = np.abs(wave_function)**2
     
     # Create an array for the time points
@@ -50,6 +50,58 @@ def myplot():
 
     # Show the plot
     plt.show()
+
+def observableplot():
+    x_avg = np.load('resultados/voluntario/observable/x_avg.npy')
+    x2_avg = np.load('resultados/voluntario/observable/x2_avg.npy')
+    p_avg = np.load('resultados/voluntario/observable/p_avg.npy')
+    E_avg = np.load('resultados/voluntario/observable/E_avg.npy')
+    K_avg = np.load('resultados/voluntario/observable/K_avg.npy')
+    V_avg = np.load('resultados/voluntario/observable/V_avg.npy')
+
+    observables = [x_avg, x2_avg, p_avg, E_avg, K_avg, V_avg]
+
+    x_avg_medida = np.load('resultados/voluntario/observable/medida/x_avg.npy')
+    x2_avg_medida = np.load('resultados/voluntario/observable/medida/x2_avg.npy')
+    p_avg_medida = np.load('resultados/voluntario/observable/medida/p_avg.npy')
+    E_avg_medida = np.load('resultados/voluntario/observable/medida/E_avg.npy')
+    K_avg_medida = np.load('resultados/voluntario/observable/medida/K_avg.npy')
+    V_avg_medida = np.load('resultados/voluntario/observable/medida/V_avg.npy')
+
+    observables_medida = [x_avg_medida, x2_avg_medida, p_avg_medida, E_avg_medida, K_avg_medida, V_avg_medida]
+
+    time = np.arange(len(x_avg))
+
+    fig_x, axes_x = plt.subplots(2)
+    fig_x2, axes_x2 = plt.subplots(2)
+    fig_p, axes_p = plt.subplots(2)
+    fig_E, axes_E = plt.subplots(2)
+    fig_K, axes_K = plt.subplots(2)
+    fig_V, axes_V = plt.subplots(2)
+
+    axes = [axes_x, axes_x2, axes_p, axes_E, axes_K, axes_V]
+    names = ['<x>', '<x^2>', '<p>', '<E>', '<K>', '<V>']
+
+    for ax, observable, observable_medida, name in zip(axes, observables, observables_medida, names):
+        observable = np.real(observable)
+        observable_medida = np.real(observable_medida)
+
+        ax[0].plot(time, observable)
+        ax[0].set_xlabel('Time')
+        ax[0].set_ylabel(name)
+        ax[0].set_xlim(np.min(time), np.max(time)+1)
+        ax[0].set_ylim(np.min(observable), np.max(observable)+0.005)
+        ax[0].set_title(f'Temporal evolution of {name} without measurement')
+
+        ax[1].plot(time, observable_medida)
+        ax[1].set_xlabel('Time')
+        ax[1].set_ylabel(name)
+        ax[1].set_xlim(np.min(time), np.max(time)+1)
+        ax[1].set_ylim(np.min(observable_medida), np.max(observable_medida)+0.005)
+        ax[1].set_title(f'Temporal evolution of {name} with measurement')
+
+    plt.show()
+
     
 if __name__ == '__main__':
-    myplot()
+    observableplot()
