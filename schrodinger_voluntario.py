@@ -71,7 +71,7 @@ def simulate(n : int = 1000, lamb : float = 0.1):
                 print(f'Iteración {n} de {TIME}')
 
                 # Calculate the probability of being in the right side between j=4*N/5 and j=N
-                probability_right = np.sum(np.abs(Phi_j[n, 4*N//5:N])**2)
+                probability_right = np.sum(np.abs(Phi_j[n+1, 4*N//5:N])**2)
 
                 #Generate a random number between 0 and 1
                 random_number = np.random.rand()
@@ -80,12 +80,12 @@ def simulate(n : int = 1000, lamb : float = 0.1):
                     print(f'Hey, I am in the right side at time {n}!')
                     break
 
-                Phi_j[n,4*N//5:N] = 0
-                k_norm = np.sum(np.abs(Phi_j[n])**2)
-                Phi_j[n] = Phi_j[n]/np.sqrt(k_norm)
+                Phi_j[n+1,4*N//5:N] = 0
+                k_norm = np.sum(np.abs(Phi_j[n+1])**2)
+                Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
 
                 #Calculate the probability of being in the left side between j=0 and j=N/5
-                probability_left = np.sum(np.abs(Phi_j[n, 0:N//5])**2)
+                probability_left = np.sum(np.abs(Phi_j[n+1, 0:N//5])**2)
 
                 #Generate a random number between 0 and 1
                 random_number = np.random.rand()
@@ -93,9 +93,9 @@ def simulate(n : int = 1000, lamb : float = 0.1):
                     print(f'Hey, I am in the left side at time {n}!')
                     break
 
-                Phi_j[n,0:N//5] = 0
-                k_norm = np.sum(np.abs(Phi_j[n])**2)
-                Phi_j[n] = Phi_j[n]/np.sqrt(k_norm)
+                Phi_j[n+1,0:N//5] = 0
+                k_norm = np.sum(np.abs(Phi_j[n+1])**2)
+                Phi_j[n+1] = Phi_j[n+1]/np.sqrt(k_norm)
 
     #Calculate the transmission coefficient
     T_coefficient = m_t/m_times

@@ -24,3 +24,4 @@ for n, lamb, result in results:
     data[LAMBDAS.index(lamb)+1, NS.index(n)+1] = result
 
 np.save('schrodinger_voluntario_results.npy', data)
+np.savetxt('schrodinger_voluntario_results.txt', data)
